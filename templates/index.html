@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+
+{% block title %}MovieRec - Find Your Next Favorite Movie{% endblock %}
+
+{% block content %}
+<section class="hero">
+    <h1>🎬 Movie Recommendation Platform</h1>
+    <p class="hero-subtitle">Discover your next favorite movie powered by AI-driven content-based filtering</p>
+
+    <form action="/recommend" method="POST" class="search-form" id="search-form">
+        <div class="search-container">
+            <input
+                type="text"
+                name="movie_title"
+                id="movie-search"
+                placeholder="Search for a movie... (e.g., Inception, The Dark Knight)"
+                autocomplete="off"
+                required
+            >
+            <button type="submit" class="btn btn-primary">Get Recommendations</button>
+            <div id="autocomplete-results" class="autocomplete-results"></div>
+        </div>
+    </form>
+</section>
+
+<!-- Available Movies Section -->
+<section class="section">
+    <h2 class="section-title">📚 Available in Our Database</h2>
+    <div class="movie-grid">
+        {% for title in titles %}
+        <a href="/recommend?movie={{ title }}" class="movie-chip">{{ title }}</a>
+        {% endfor %}
+    </div>
+</section>
+
+<!-- Trending Movies (from TMDB API) -->
+{% if trending %}
+<section class="section">
+    <h2 class="section-title">🔥 Trending This Week</h2>
+    <div class="card-grid">
+        {% for movie in trending %}
+        <div class="movie-card">
+            {% if movie.poster_url %}
+            <img src="{{ movie.poster_url }}" alt="{{ movie.title }}" class="movie-poster" loading="lazy">
+            {% else %}
+            <div class="movie-poster-placeholder">🎬</div>
+            {% endif %}
+            <div class="movie-card-body">
+                <h3 class="movie-card-title">{{ movie.title }}</h3>
+                <div class="movie-meta">
+                    <span class="rating">⭐ {{ movie.vote_average }}</span>
+                    <span class="year">{{ movie.release_date[:4] if movie.release_date != 'N/A' else 'N/A' }}</span>
+                </div>
+                <p class="movie-overview">{{ movie.overview[:120] }}{% if movie.overview|length > 120 %}...{% endif %}</p>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+{% endif %}
+{% endblock %}

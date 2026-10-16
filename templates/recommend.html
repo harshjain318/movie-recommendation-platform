@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+
+{% block title %}Recommendations for {{ movie_title }} - MovieRec{% endblock %}
+
+{% block content %}
+<section class="section">
+    <!-- Search Again -->
+    <form action="/recommend" method="POST" class="search-form search-form-compact" id="search-form">
+        <div class="search-container">
+            <input
+                type="text"
+                name="movie_title"
+                id="movie-search"
+                placeholder="Search for another movie..."
+                value="{{ movie_title }}"
+                autocomplete="off"
+                required
+            >
+            <button type="submit" class="btn btn-primary">Search</button>
+            <div id="autocomplete-results" class="autocomplete-results"></div>
+        </div>
+    </form>
+
+    {% if error %}
+    <div class="alert alert-error">
+        <span>⚠️</span> {{ error }}
+    </div>
+    <a href="/" class="btn btn-secondary">← Back to Home</a>
+    {% endif %}
+
+    {% if movie_info %}
+    <!-- Selected Movie Info -->
+    <div class="selected-movie">
+        <div class="selected-movie-content">
+            {% if tmdb_data and tmdb_data.poster_url %}
+            <img src="{{ tmdb_data.poster_url }}" alt="{{ movie_info.title }}" class="selected-poster">
+            {% endif %}
+            <div class="selected-info">
+                <h2>{{ movie_info.title }}</h2>
+                <div class="movie-meta">
+                    <span class="rating">⭐ {{ movie_info.vote_average }}</span>
+                    <span class="year">📅 {{ movie_info.release_year }}</span>
+                    <span class="genres-tag">🎭 {{ movie_info.genres }}</span>
+                </div>
+                <p class="movie-overview">{{ movie_info.overview }}</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Recommendations -->
+    <h2 class="section-title">🎯 Recommended Movies</h2>
+    <div class="recommendations-grid">
+        {% for rec in recommendations %}
+        <div class="rec-card">
+            {% if rec.poster_url %}
+            <img src="{{ rec.poster_url }}" alt="{{ rec.title }}" class="rec-poster" loading="lazy">
+            {% else %}
+            <div class="rec-poster-placeholder">🎬</div>
+            {% endif %}
+            <div class="rec-card-body">
+                <h3 class="rec-title">
+                    <a href="/recommend?movie={{ rec.title }}">{{ rec.title }}</a>
+                </h3>
+                <div class="movie-meta">
+                    <span class="rating">⭐ {{ rec.tmdb_rating or rec.vote_average }}</span>
+                    <span class="year">{{ rec.release_year }}</span>
+                    <span class="similarity">🎯 {{ (rec.similarity_score * 100)|round(1) }}% match</span>
+                </div>
+                <p class="rec-genres">{{ rec.genres }}</p>
+                <p class="rec-overview">{{ rec.overview[:150] }}{% if rec.overview|length > 150 %}...{% endif %}</p>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+</section>
+{% endblock %}

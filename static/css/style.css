@@ -1,0 +1,526 @@
+/* ========================================
+   Movie Recommendation Platform 2025
+   Modern Dark Theme Stylesheet
+   ======================================== */
+
+/* --- Reset & Base --- */
+*, *::before, *::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --bg-primary: #0f0f1a;
+    --bg-secondary: #1a1a2e;
+    --bg-card: #16213e;
+    --bg-card-hover: #1c2a4a;
+    --text-primary: #e8e8e8;
+    --text-secondary: #a0a0b8;
+    --text-muted: #6c6c8a;
+    --accent: #e94560;
+    --accent-hover: #ff6b81;
+    --accent-glow: rgba(233, 69, 96, 0.3);
+    --gold: #f5c518;
+    --success: #4ecca3;
+    --border: #2a2a4a;
+    --radius: 12px;
+    --radius-sm: 8px;
+    --shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    --transition: all 0.3s ease;
+}
+
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    line-height: 1.6;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    width: 100%;
+}
+
+/* --- Navbar --- */
+.navbar {
+    background: rgba(15, 15, 26, 0.95);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--border);
+    padding: 16px 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.navbar .container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    color: var(--text-primary);
+    font-size: 1.4rem;
+    font-weight: 700;
+}
+
+.logo-icon {
+    font-size: 1.6rem;
+}
+
+.logo-text {
+    background: linear-gradient(135deg, var(--accent), var(--gold));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.nav-links {
+    display: flex;
+    gap: 24px;
+}
+
+.nav-link {
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-weight: 500;
+    transition: var(--transition);
+}
+
+.nav-link:hover {
+    color: var(--accent);
+}
+
+/* --- Hero Section --- */
+.hero {
+    text-align: center;
+    padding: 80px 0 40px;
+}
+
+.hero h1 {
+    font-size: 2.8rem;
+    font-weight: 700;
+    margin-bottom: 16px;
+    background: linear-gradient(135deg, #fff, var(--accent));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.hero-subtitle {
+    color: var(--text-secondary);
+    font-size: 1.15rem;
+    margin-bottom: 40px;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* --- Search Form --- */
+.search-form {
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+.search-form-compact {
+    margin-bottom: 30px;
+}
+
+.search-container {
+    position: relative;
+    display: flex;
+    gap: 12px;
+}
+
+.search-container input {
+    flex: 1;
+    padding: 16px 20px;
+    background: var(--bg-secondary);
+    border: 2px solid var(--border);
+    border-radius: var(--radius);
+    color: var(--text-primary);
+    font-size: 1rem;
+    font-family: inherit;
+    transition: var(--transition);
+}
+
+.search-container input:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 4px var(--accent-glow);
+}
+
+.search-container input::placeholder {
+    color: var(--text-muted);
+}
+
+/* --- Buttons --- */
+.btn {
+    padding: 16px 28px;
+    border: none;
+    border-radius: var(--radius);
+    font-size: 1rem;
+    font-weight: 600;
+    font-family: inherit;
+    cursor: pointer;
+    transition: var(--transition);
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    white-space: nowrap;
+}
+
+.btn-primary {
+    background: var(--accent);
+    color: white;
+}
+
+.btn-primary:hover {
+    background: var(--accent-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px var(--accent-glow);
+}
+
+.btn-secondary {
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+    border: 1px solid var(--border);
+}
+
+.btn-secondary:hover {
+    background: var(--bg-card);
+    border-color: var(--accent);
+}
+
+/* --- Autocomplete --- */
+.autocomplete-results {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 120px;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    margin-top: 4px;
+    max-height: 300px;
+    overflow-y: auto;
+    display: none;
+    z-index: 50;
+}
+
+.autocomplete-results.active {
+    display: block;
+}
+
+.autocomplete-item {
+    padding: 12px 20px;
+    cursor: pointer;
+    transition: var(--transition);
+    border-bottom: 1px solid var(--border);
+}
+
+.autocomplete-item:last-child {
+    border-bottom: none;
+}
+
+.autocomplete-item:hover,
+.autocomplete-item.selected {
+    background: var(--bg-card);
+    color: var(--accent);
+}
+
+/* --- Section --- */
+.section {
+    padding: 40px 0;
+}
+
+.section-title {
+    font-size: 1.6rem;
+    font-weight: 600;
+    margin-bottom: 24px;
+    color: var(--text-primary);
+}
+
+/* --- Movie Chips --- */
+.movie-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.movie-chip {
+    padding: 8px 18px;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: 50px;
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: var(--transition);
+}
+
+.movie-chip:hover {
+    background: var(--accent);
+    color: white;
+    border-color: var(--accent);
+    transform: translateY(-2px);
+}
+
+/* --- Card Grid (Trending) --- */
+.card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px;
+}
+
+.movie-card {
+    background: var(--bg-card);
+    border-radius: var(--radius);
+    overflow: hidden;
+    transition: var(--transition);
+    border: 1px solid var(--border);
+}
+
+.movie-card:hover {
+    transform: translateY(-6px);
+    box-shadow: var(--shadow);
+    border-color: var(--accent);
+}
+
+.movie-poster {
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+}
+
+.movie-poster-placeholder {
+    width: 100%;
+    height: 300px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 4rem;
+    background: var(--bg-secondary);
+}
+
+.movie-card-body {
+    padding: 16px;
+}
+
+.movie-card-title {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: var(--text-primary);
+}
+
+.movie-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 8px;
+    font-size: 0.85rem;
+}
+
+.rating {
+    color: var(--gold);
+    font-weight: 600;
+}
+
+.year {
+    color: var(--text-muted);
+}
+
+.similarity {
+    color: var(--success);
+    font-weight: 600;
+}
+
+.genres-tag {
+    color: var(--text-secondary);
+}
+
+.movie-overview {
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+    line-height: 1.5;
+}
+
+/* --- Selected Movie --- */
+.selected-movie {
+    background: var(--bg-card);
+    border-radius: var(--radius);
+    padding: 24px;
+    margin-bottom: 40px;
+    border: 1px solid var(--border);
+}
+
+.selected-movie-content {
+    display: flex;
+    gap: 24px;
+    align-items: flex-start;
+}
+
+.selected-poster {
+    width: 200px;
+    border-radius: var(--radius-sm);
+    flex-shrink: 0;
+}
+
+.selected-info h2 {
+    font-size: 1.8rem;
+    margin-bottom: 12px;
+}
+
+.selected-info .movie-meta {
+    margin-bottom: 16px;
+}
+
+.selected-info .movie-overview {
+    font-size: 0.95rem;
+}
+
+/* --- Recommendations Grid --- */
+.recommendations-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+}
+
+.rec-card {
+    background: var(--bg-card);
+    border-radius: var(--radius);
+    overflow: hidden;
+    transition: var(--transition);
+    border: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+}
+
+.rec-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow);
+    border-color: var(--accent);
+}
+
+.rec-poster {
+    width: 100%;
+    height: 350px;
+    object-fit: cover;
+}
+
+.rec-poster-placeholder {
+    width: 100%;
+    height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 3rem;
+    background: var(--bg-secondary);
+}
+
+.rec-card-body {
+    padding: 16px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.rec-title {
+    font-size: 1.1rem;
+    margin-bottom: 8px;
+}
+
+.rec-title a {
+    color: var(--text-primary);
+    text-decoration: none;
+    transition: var(--transition);
+}
+
+.rec-title a:hover {
+    color: var(--accent);
+}
+
+.rec-genres {
+    color: var(--text-muted);
+    font-size: 0.8rem;
+    margin-bottom: 8px;
+}
+
+.rec-overview {
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+    line-height: 1.5;
+    margin-top: auto;
+}
+
+/* --- Alert --- */
+.alert {
+    padding: 16px 20px;
+    border-radius: var(--radius-sm);
+    margin-bottom: 20px;
+    font-size: 0.95rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.alert-error {
+    background: rgba(233, 69, 96, 0.15);
+    border: 1px solid var(--accent);
+    color: var(--accent-hover);
+}
+
+/* --- Footer --- */
+.footer {
+    margin-top: auto;
+    padding: 24px 0;
+    text-align: center;
+    border-top: 1px solid var(--border);
+    color: var(--text-muted);
+    font-size: 0.85rem;
+}
+
+/* --- Responsive --- */
+@media (max-width: 768px) {
+    .hero h1 {
+        font-size: 1.8rem;
+    }
+
+    .search-container {
+        flex-direction: column;
+    }
+
+    .autocomplete-results {
+        right: 0;
+    }
+
+    .selected-movie-content {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .selected-poster {
+        width: 160px;
+    }
+
+    .card-grid {
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    }
+
+    .recommendations-grid {
+        grid-template-columns: 1fr;
+    }
+}
